@@ -13,9 +13,29 @@ router.post("/", auth, async (req, res) => {
             return res.status(400).json({ error: "Message is required" });
         }
 
-        const response = await axios.post(config.WEBHOOK_URL, { message });
+        const response = await axios({
+            method: "post",
+            url: config.WEBHOOK_URL,
+            data: { message },
+            responseType: "stream"
+        });
 
-        return res.json({ output: response.data.output });
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+
+        response.data.on("data", (chunk) => {
+            res.write(chunk.toString());
+        });
+
+        response.data.on("end", () => {
+            res.end();
+        });
+
+        response.data.on("error", (err) => {
+            console.error("Stream error:", err.message);
+            res.end();
+        });
 
     } catch (err) {
         console.error("Chat error:", err.response?.data || err.message);
