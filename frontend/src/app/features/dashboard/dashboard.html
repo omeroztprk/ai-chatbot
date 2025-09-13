@@ -2,49 +2,51 @@
   <div class="form-card chat-card">
     <div class="chat-header">
       <div class="chat-brand">
-        <div class="app-logo logo-sm"><img src="logo.png" alt="Description of image"></div>
-        <h1 class="form-title chat-title">Chatbot</h1>
+        <div class="app-logo logo-sm">
+          <img src="logo.png" alt="Chatbot">
+        </div>
+        <h1 class="chat-title">Chatbot</h1>
       </div>
-      <button type="button" class="btn btn-secondary btn-sm" (click)="logout()">Logout</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="logout()">Sign out</button>
     </div>
 
     <div #scroller class="chat-messages">
       <div *ngFor="let m of messages()" class="message" [class.user]="m.role === 'user'"
         [class.assistant]="m.role === 'assistant'">
         <div class="bubble">{{ m.content }}</div>
-      </div>
+      </div>  
     </div>
 
     <form [formGroup]="chatForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="extra-prompt" *ngIf="showExtraPrompt()">
-        <textarea #extraInput class="chat-textarea" placeholder="Optional additional instructions…" rows="1"
+        <textarea #extraInput class="chat-textarea" placeholder="Additional instructions..." rows="1"
           formControlName="extraPrompt" (input)="autoResize($event)"></textarea>
-
-        <button type="button" class="btn btn-primary btn-sm" (click)="closeExtraPrompt()">Close</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="closeExtraPrompt()">Done</button>
       </div>
 
       <div class="chat-input">
-        <div #menuRoot class="more-menu" [class.open]="menuOpen()">
-          <button type="button" class="icon-button icon-button--lg" [attr.aria-expanded]="menuOpen()"
-            aria-haspopup="menu" aria-label="More options" (click)="toggleMenu()" (keydown.escape)="closeMenu()">
-            ⋮
-            <span class="sr-only">Toggle menu</span>
+        <div #menuRoot class="more-menu">
+          <button type="button" class="icon-button" [attr.aria-expanded]="menuOpen()" aria-haspopup="menu"
+            aria-label="Options" (click)="toggleMenu()">
+            ⋯
           </button>
 
-          <div class="menu-panel" *ngIf="menuOpen()" role="menu" aria-label="More options">
-            <button type="button" class="menu-item" role="menuitem" (click)="onSelectExtraPrompt()">
-              Add Prompt
+          <div class="menu-panel" *ngIf="menuOpen()" role="menu">
+            <button type="button" class="menu-item" (click)="onSelectExtraPrompt()">
+              Add instructions
             </button>
-            <button type="button" class="menu-item" role="menuitem" (click)="onClearChat()">
-              Clear Chat
+            <button type="button" class="menu-item" (click)="onClearChat()">
+              Clear chat
             </button>
           </div>
         </div>
 
-        <textarea #messageInput class="chat-textarea" placeholder="Message..." aria-label="Message" rows="1"
-          formControlName="message" (input)="autoResize($event)" (keydown.enter)="onEnter($event)"></textarea>
+        <textarea #messageInput class="chat-textarea" placeholder="Type a message..." rows="1" formControlName="message"
+          (input)="autoResize($event)" (keydown.enter)="onEnter($event)"></textarea>
 
-        <button type="submit" class="btn btn-primary btn-sm" [disabled]="chatForm.invalid">Send</button>
+        <button type="submit" class="btn btn-primary btn-sm" [disabled]="chatForm.invalid || streaming()">
+          Send
+        </button>
       </div>
     </form>
   </div>

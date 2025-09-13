@@ -20,12 +20,11 @@ body {
   font-weight: $w-normal;
   line-height: $leading-normal;
   color: $text;
-  background:
-    radial-gradient(ellipse 1200px 800px at 20% 10%, rgba($primary, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 800px 600px at 80% 90%, rgba($secondary, 0.10) 0%, transparent 50%),
-    $bg;
-  background-attachment: fixed;
+  background: $bg;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $gradient-bg;
+  background-attachment: fixed;
 }
 
 /* Layout */
@@ -34,55 +33,54 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $space-8 $space-4;
+  padding: $space-6 $space-4;
 }
 
 .form-card {
-  @include glass;
+  @include glass-light;
   width: 100%;
-  max-width: 440px;
-  padding: $space-10;
+  max-width: 400px;
+  padding: $space-8;
   border-radius: $radius-xl;
-  box-shadow: $shadow-strong;
-  animation: slideInUp 0.6s ease-out;
+  box-shadow: $shadow-md;
+  animation: slideInUp 0.4s cubic-bezier(0.2, 0, 0, 1);
 
   @media (max-width: 640px) {
-    padding: $space-8 $space-6;
+    padding: $space-6;
+    max-width: 360px;
   }
 }
 
 /* Headings */
 .form-header {
   text-align: center;
-  margin-bottom: $space-10;
+  margin-bottom: $space-8;
 }
 
 .form-title {
-  font-size: $text-3xl;
-  font-weight: $w-bold;
+  font-size: $text-2xl;
+  font-weight: $w-semibold;
   margin: 0 0 $space-2 0;
-  background: $primary-gradient;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: $text;
   line-height: $leading-tight;
 }
 
 .form-subtitle {
-  color: $text-dim;
-  font-size: $text-base;
+  color: $text-secondary;
+  font-size: $text-sm;
   margin: 0;
+  font-weight: $w-normal;
 }
 
 /* Form layout */
 .form-group {
-  margin-bottom: $space-6;
+  margin-bottom: $space-5;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: $space-4;
+  gap: $space-3;
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
@@ -93,17 +91,17 @@ body {
   position: relative;
 }
 
-/* Inputs (global, floating label) */
+/* Inputs */
 .form-input {
   height: $input-height;
   width: 100%;
   padding: 0 $space-4;
   font-size: $text-base;
   color: $text;
-  background: color.adjust($surface, $lightness: 6%, $alpha: -0.18);
-  border: 1px solid rgba(100, 116, 139, 0.22);
+  background: $surface-elevated;
+  border: 1px solid $border;
   border-radius: $radius;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   outline: none;
 
   &::placeholder {
@@ -112,12 +110,11 @@ body {
 
   &:focus {
     @include focus-ring($primary);
-    background: color.adjust($surface, $lightness: 4%, $alpha: -0.08);
-    border-color: rgba($primary, 0.45);
+    background: #ffffff;
   }
 
   &.has-end-adornment {
-    padding-right: $space-12;
+    padding-right: $space-10;
   }
 }
 
@@ -126,12 +123,13 @@ body {
   left: $space-4;
   top: 50%;
   transform: translateY(-50%);
-  color: $muted;
+  color: $text-tertiary;
   font-size: $text-base;
+  font-weight: $w-normal;
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   background: transparent;
-  padding: 0 $space-2;
+  padding: 0 $space-1;
 }
 
 .form-input:focus+.form-label,
@@ -139,8 +137,8 @@ body {
   top: 0;
   font-size: $text-xs;
   font-weight: $w-medium;
-  color: color.adjust($primary, $lightness: 12%);
-  background: $surface;
+  color: $primary;
+  background: $surface-elevated;
   border-radius: $radius-sm;
 }
 
@@ -152,16 +150,16 @@ body {
   z-index: 2;
 }
 
-/* Icon buttons (global) */
+/* Icon buttons */
 .icon-button {
   @include button-reset;
   width: $icon-btn-size;
   height: $icon-btn-size;
-  border: 1px solid rgba(100, 116, 139, 0.18);
-  background: color.adjust($surface, $lightness: 6%, $alpha: -0.18);
-  color: $muted;
+  border: 1px solid $border-light;
+  background: $surface-elevated;
+  color: $text-secondary;
   border-radius: $radius-sm;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 
   svg {
     width: $icon-size;
@@ -170,8 +168,8 @@ body {
 
   &:hover {
     color: $text;
-    background: color.adjust($surface, $lightness: 4%, $alpha: -0.08);
-    border-color: rgba(100, 116, 139, 0.28);
+    background: #ffffff;
+    border-color: $border;
   }
 
   &:focus {
@@ -192,8 +190,8 @@ body {
 /* Validation */
 .form-field.has-error {
   .form-input {
-    border-color: rgba($error, 0.6);
-    background: rgba($error, 0.06);
+    border-color: $error;
+    background: rgba($error, 0.02);
 
     &:focus {
       @include focus-ring($error);
@@ -201,15 +199,15 @@ body {
   }
 
   .form-label {
-    color: color.adjust($error, $lightness: 18%);
+    color: $error;
   }
 }
 
 .form-error {
   margin-top: $space-2;
-  font-size: $text-sm;
+  font-size: $text-xs;
   font-weight: $w-medium;
-  color: color.adjust($error, $lightness: 15%);
+  color: $error;
 
   ul {
     margin: 0;
@@ -218,7 +216,7 @@ body {
   }
 
   li {
-    margin-bottom: $space-2;
+    margin-bottom: $space-1;
 
     &:last-child {
       margin-bottom: 0;
@@ -226,19 +224,19 @@ body {
   }
 }
 
-/* Buttons (global) */
+/* Buttons */
 .btn {
   @include button-reset;
   height: $button-height;
-  padding: 0 $space-6;
+  padding: 0 $space-5;
   font-size: $text-base;
-  font-weight: $w-semibold;
+  font-weight: $w-medium;
   border-radius: $radius;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   position: relative;
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 }
@@ -247,14 +245,12 @@ body {
   height: $btn-sm-height;
   padding: 0 $space-4;
   font-size: $text-sm;
-  border-radius: $radius-sm;
 }
 
 .btn-lg {
   height: $btn-lg-height;
-  padding: 0 $space-8;
-  font-size: $text-xl;
-  border-radius: $radius;
+  padding: 0 $space-6;
+  font-size: $text-lg;
 }
 
 .btn-full {
@@ -262,18 +258,15 @@ body {
 }
 
 .btn-primary {
-  background: $primary-gradient;
+  background: linear-gradient(135deg, $primary 0%, #0066cc 100%);
   color: #ffffff;
   border: 1px solid transparent;
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: $shadow-sm;
 
   &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow:
-      0 6px 20px rgba($primary, 0.4),
-      0 2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, $primary-hover 0%, #0052b3 100%);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
   }
 
   &:active:not(:disabled) {
@@ -286,17 +279,17 @@ body {
 }
 
 .btn-secondary {
-  background: rgba(71, 85, 105, 0.1);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   color: $text;
-  border: 1px solid rgba(71, 85, 105, 0.2);
+  border: 1px solid $border;
 
   &:hover:not(:disabled) {
-    background: rgba(71, 85, 105, 0.15);
-    border-color: rgba(71, 85, 105, 0.3);
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    border-color: color.adjust($border, $lightness: -10%);
   }
 
   &:active:not(:disabled) {
-    background: rgba(71, 85, 105, 0.2);
+    background: $surface;
   }
 
   &:focus:not(:disabled) {
@@ -313,8 +306,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-top-color: #ffffff;
     border-radius: 50%;
@@ -324,29 +317,28 @@ body {
 
 /* Toast */
 .toast {
-  @include glass;
-  padding: $space-4 $space-5;
+  @include glass-light;
+  padding: $space-3 $space-4;
   border-radius: $radius;
   font-size: $text-sm;
   font-weight: $w-medium;
-  margin: $space-5 0;
+  margin: $space-4 0;
   display: flex;
   align-items: center;
-  gap: $space-3;
-  animation: fadeIn 0.3s ease;
+  gap: $space-2;
+  animation: scaleIn 0.2s ease;
 }
 
 .toast-icon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
-  display: inline-block;
 }
 
 .toast-success {
-  color: color.adjust($success, $lightness: 8%);
-  border-color: rgba($success, 0.3);
-  background: rgba($success, 0.06);
+  color: $success;
+  border-color: rgba($success, 0.2);
+  background: rgba($success, 0.03);
 
   .toast-icon {
     color: $success;
@@ -354,9 +346,9 @@ body {
 }
 
 .toast-error {
-  color: color.adjust($error, $lightness: 8%);
-  border-color: rgba($error, 0.3);
-  background: rgba($error, 0.06);
+  color: $error;
+  border-color: rgba($error, 0.2);
+  background: rgba($error, 0.03);
 
   .toast-icon {
     color: $error;
@@ -365,28 +357,24 @@ body {
 
 /* Footer */
 .form-footer {
-  margin-top: $space-8;
+  margin-top: $space-6;
   text-align: center;
 }
 
 .form-footer-text {
-  color: $text-dim;
+  color: $text-secondary;
   font-size: $text-sm;
   margin: 0;
 
   a {
-    color: $secondary;
+    color: $primary;
     text-decoration: none;
     font-weight: $w-medium;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 
-    &:hover {
-      color: color.adjust($secondary, $lightness: 12%);
-    }
-
+    &:hover,
     &:focus {
-      outline: none;
-      color: color.adjust($secondary, $lightness: 12%);
+      color: $primary-hover;
     }
   }
 }
@@ -399,16 +387,16 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .form-title {
-    font-size: $text-2xl;
+    font-size: $text-xl;
   }
 }
 
 @media (max-width: 480px) {
   .form-card {
-    padding: $space-6 $space-5;
+    padding: $space-5;
   }
 
   .form-title {
-    font-size: $text-xl;
+    font-size: $text-lg;
   }
 }
