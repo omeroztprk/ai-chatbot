@@ -2,11 +2,11 @@
 @use "sass:color";
 
 .chat-card {
-  max-width: 760px;
+  max-width: 540px;
   padding: $space-8;
 
   @media (max-width: 640px) {
-    padding: $space-6 $space-5;
+    padding: $space-5 $space-4;
   }
 }
 
@@ -14,13 +14,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: $space-6;
+  margin-bottom: $space-5;
 }
 
 .chat-brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .chat-title {
@@ -67,28 +67,30 @@
   background: color.adjust($surface, $lightness: 6%, $alpha: -0.18);
   border: 1px solid $border;
   border-radius: $radius;
-  padding: $space-6;
-  height: 420px;
+  padding: $space-5;
+  height: 460px;
   overflow: auto;
   scroll-behavior: smooth;
 }
 
 .message {
   display: flex;
-  margin-bottom: $space-4;
+  margin-bottom: $space-3;
 
   &:last-child {
     margin-bottom: 0;
   }
 
   .bubble {
-    max-width: 80%;
-    border-radius: $radius;
-    padding: $space-4;
+    max-width: 75%;
+    border-radius: $radius-sm;
+    padding: $space-3;
     border: 1px solid $border;
     background: $surface;
     color: $text;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    font-size: $text-sm;
+    line-height: $leading-normal;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     white-space: pre-wrap;
     word-break: break-word;
   }
@@ -116,14 +118,69 @@
 
   .textarea {
     flex: 1 1 auto;
-    min-height: $input-height;
-    line-height: $leading-normal;
-    padding: $space-3 $space-4;
+    height: auto;
+    min-height: 44px;
+    font-size: $text-sm;
+    line-height: 22px;
+    padding: 10px $space-3;
+    border-radius: $radius-sm;
     resize: none;
     overflow-y: hidden;
-    font-size: $text-base;
-    border-radius: $radius;
     transition: height 0.15s ease;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+
+    &::placeholder {
+      color: $text-dim;
+      opacity: 0.9;
+    }
   }
+
+  .btn {
+    height: 44px;
+    padding: 0 $space-4;
+    font-size: $text-sm;
+    border-radius: $radius-sm;
+  }
+}
+
+.chat-messages,
+.chat-input .textarea {
+  // Firefox
+  scrollbar-width: thin;
+  scrollbar-color: rgba($text-dim, 0.38) transparent;
+
+  // WebKit
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 9999px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($text-dim, 0.38);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: rgba($text-dim, 0.55);
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: rgba($text-dim, 0.70);
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+.chat-messages {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }

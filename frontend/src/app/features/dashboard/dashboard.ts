@@ -48,7 +48,8 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.resetTextareaHeight());
+    // Başlangıçta hizalı ve tek satır yüksekliğinde olsun
+    setTimeout(() => this.autoResize());
   }
 
   onSubmit() {
@@ -93,19 +94,23 @@ export class DashboardComponent implements AfterViewInit {
     const line = parseFloat(cs.lineHeight) || (parseFloat(cs.fontSize) * 1.5);
     const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
     const brdY = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
-    const maxHeight = Math.round(line * 3 + padY + brdY);
 
-    const newH = Math.min(el.scrollHeight, maxHeight);
-    el.style.height = `${newH}px`;
-    el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
+    const cssMinH = parseFloat(cs.minHeight) || 0;
+    const minH = Math.max(cssMinH, Math.round(line + padY + brdY));
+    const maxH = Math.round(line * 3 + padY + brdY);
+
+    const target = Math.min(Math.max(el.scrollHeight, minH), maxH);
+    el.style.height = `${target}px`;
+    el.style.overflowY = el.scrollHeight > maxH ? 'auto' : 'hidden';
   }
 
   private resetTextareaHeight() {
     const el = this.messageInput?.nativeElement;
     if (!el) return;
     el.value = '';
-    el.style.height = '';
+    el.style.height = 'auto';
     el.style.overflowY = 'hidden';
+    requestAnimationFrame(() => this.autoResize());
   }
 
   cancel() {
