@@ -1,0 +1,129 @@
+@use "../../../styles/core" as *;
+@use "sass:color";
+
+.chat-card {
+  max-width: 760px;
+  padding: $space-8;
+
+  @media (max-width: 640px) {
+    padding: $space-6 $space-5;
+  }
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-6;
+}
+
+.chat-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-title {
+  margin: 0;
+}
+
+.app-logo {
+  width: 72px;
+  height: 72px;
+  transition: transform 0.3s ease;
+}
+
+.app-logo:hover {
+  transform: scale(1.05);
+}
+
+.app-logo.logo-sm {
+  width: 40px;
+  height: 40px;
+}
+
+.app-logo.logo-md {
+  width: 56px;
+  height: 56px;
+}
+
+.app-logo.logo-lg {
+  width: 72px;
+  height: 72px;
+}
+
+.app-logo.logo-xl {
+  width: 96px;
+  height: 96px;
+}
+
+.app-logo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chat-messages {
+  background: color.adjust($surface, $lightness: 6%, $alpha: -0.18);
+  border: 1px solid $border;
+  border-radius: $radius;
+  padding: $space-6;
+  height: 420px;
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+
+.message {
+  display: flex;
+  margin-bottom: $space-4;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .bubble {
+    max-width: 80%;
+    border-radius: $radius;
+    padding: $space-4;
+    border: 1px solid $border;
+    background: $surface;
+    color: $text;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  &.user {
+    justify-content: flex-end;
+
+    .bubble {
+      background: $primary-gradient;
+      color: #fff;
+      border-color: transparent;
+    }
+  }
+
+  &.assistant {
+    justify-content: flex-start;
+  }
+}
+
+.chat-input {
+  display: flex;
+  gap: $space-3;
+  margin-top: $space-6;
+  align-items: flex-end;
+
+  .textarea {
+    flex: 1 1 auto;
+    min-height: $input-height;
+    line-height: $leading-normal;
+    padding: $space-3 $space-4;
+    resize: none;
+    overflow-y: hidden;
+    font-size: $text-base;
+    border-radius: $radius;
+    transition: height 0.15s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  }
+}

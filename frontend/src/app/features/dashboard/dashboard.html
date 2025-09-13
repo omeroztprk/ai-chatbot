@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="form-card chat-card">
+    <div class="chat-header">
+      <div class="chat-brand">
+        <div class="app-logo logo-sm"><img src="logo.png" alt="Description of image"></div>
+        <h1 class="form-title chat-title">Chatbot</h1>
+      </div>
+      <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+    </div>
+
+    <div #scroller class="chat-messages">
+      <div *ngFor="let m of messages()" class="message" [class.user]="m.role === 'user'"
+        [class.assistant]="m.role === 'assistant'">
+        <div class="bubble">{{ m.content }}</div>
+      </div>
+    </div>
+
+    <form class="chat-input" [formGroup]="chatForm" (ngSubmit)="onSubmit()" novalidate>
+      <textarea #messageInput class="form-input textarea" placeholder="Mesaj yazın…" aria-label="Mesaj" rows="1"
+        formControlName="message" (input)="autoResize($event)" (keydown.enter)="onEnter($event)"></textarea>
+
+      <button type="submit" class="btn btn-primary" [disabled]="chatForm.invalid">Gönder</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+@use "sass:color";
+
+/* Color Palette */
+$bg: #0d1220;
+$surface: rgba(24, 32, 52, 0.88);
+$border: rgba(100, 116, 139, 0.20);
+$text: #f1f5f9;
+$text-dim: #a6b1c3;
+$muted: #70829a;
+
+$primary: #2198e9;
+$secondary: #0ea5e9;
+$success: #10b981;
+$error: #f43f5e;
+$warning: #f59e0b;
+
+$primary-gradient: linear-gradient(135deg, $primary 0%, color.adjust($primary, $lightness: 8%) 100%);
+
+/* Spacing */
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-8: 32px;
+$space-10: 40px;
+$space-12: 48px;
+
+/* Typography */
+$text-xs: 12px;
+$text-sm: 14px;
+$text-base: 16px;
+$text-xl: 20px;
+$text-2xl: 24px;
+$text-3xl: 30px;
+
+$leading-tight: 1.25;
+$leading-normal: 1.5;
+
+/* Components */
+$input-height: 52px;
+$button-height: 52px;
+$icon-size: 20px;
+$icon-btn-size: 36px;
+
+$radius: 12px;
+$radius-sm: 8px;
+$radius-xl: 20px;
+
+$shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.4);
+
+$font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$w-normal: 400;
+$w-medium: 500;
+$w-semibold: 600;
+$w-bold: 700;
+
+/* Mixins */
+@mixin button-reset {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin focus-ring($color: $primary) {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba($color, 0.25), 0 0 0 4px rgba($color, 0.1);
+  border-color: $color;
+}
+
+@mixin glass {
+  background: $surface;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
