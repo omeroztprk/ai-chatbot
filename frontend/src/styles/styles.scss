@@ -22,7 +22,7 @@ body {
   color: $text;
   background:
     radial-gradient(ellipse 1200px 800px at 20% 10%, rgba($primary, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 800px 600px at 80% 90%, rgba($secondary, 0.10) 0%, transparent 50%), // hafif aydınlık
+    radial-gradient(ellipse 800px 600px at 80% 90%, rgba($secondary, 0.10) 0%, transparent 50%),
     $bg;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
@@ -51,7 +51,7 @@ body {
   }
 }
 
-/* Form Header */
+/* Headings */
 .form-header {
   text-align: center;
   margin-bottom: $space-10;
@@ -74,7 +74,7 @@ body {
   margin: 0;
 }
 
-/* Form Elements */
+/* Form layout */
 .form-group {
   margin-bottom: $space-6;
 }
@@ -93,13 +93,14 @@ body {
   position: relative;
 }
 
+/* Inputs (global, floating label) */
 .form-input {
   height: $input-height;
   width: 100%;
   padding: 0 $space-4;
   font-size: $text-base;
   color: $text;
-  background: color.adjust($surface, $lightness: 6%, $alpha: -0.18); // önce: rgba(15, 23, 42, 0.6)
+  background: color.adjust($surface, $lightness: 6%, $alpha: -0.18);
   border: 1px solid rgba(100, 116, 139, 0.22);
   border-radius: $radius;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -111,7 +112,7 @@ body {
 
   &:focus {
     @include focus-ring($primary);
-    background: color.adjust($surface, $lightness: 4%, $alpha: -0.08); // önce: rgba(15, 23, 42, 0.8)
+    background: color.adjust($surface, $lightness: 4%, $alpha: -0.08);
     border-color: rgba($primary, 0.45);
   }
 
@@ -151,12 +152,13 @@ body {
   z-index: 2;
 }
 
+/* Icon buttons (global) */
 .icon-button {
   @include button-reset;
   width: $icon-btn-size;
   height: $icon-btn-size;
   border: 1px solid rgba(100, 116, 139, 0.18);
-  background: color.adjust($surface, $lightness: 6%, $alpha: -0.18); // önce: rgba(15, 23, 42, 0.6)
+  background: color.adjust($surface, $lightness: 6%, $alpha: -0.18);
   color: $muted;
   border-radius: $radius-sm;
   transition: all 0.3s ease;
@@ -168,13 +170,23 @@ body {
 
   &:hover {
     color: $text;
-    background: color.adjust($surface, $lightness: 4%, $alpha: -0.08); // önce: rgba(15, 23, 42, 0.8)
+    background: color.adjust($surface, $lightness: 4%, $alpha: -0.08);
     border-color: rgba(100, 116, 139, 0.28);
   }
 
   &:focus {
     @include focus-ring($primary);
   }
+}
+
+.icon-button--sm {
+  width: $icon-btn-sm;
+  height: $icon-btn-sm;
+}
+
+.icon-button--lg {
+  width: $icon-btn-lg;
+  height: $icon-btn-lg;
 }
 
 /* Validation */
@@ -214,7 +226,7 @@ body {
   }
 }
 
-/* Buttons */
+/* Buttons (global) */
 .btn {
   @include button-reset;
   height: $button-height;
@@ -229,6 +241,24 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
   }
+}
+
+.btn-sm {
+  height: $btn-sm-height;
+  padding: 0 $space-4;
+  font-size: $text-sm;
+  border-radius: $radius-sm;
+}
+
+.btn-lg {
+  height: $btn-lg-height;
+  padding: 0 $space-8;
+  font-size: $text-xl;
+  border-radius: $radius;
+}
+
+.btn-full {
+  width: 100%;
 }
 
 .btn-primary {
@@ -274,10 +304,6 @@ body {
   }
 }
 
-.btn-full {
-  width: 100%;
-}
-
 .btn-loading {
   color: transparent !important;
 
@@ -317,7 +343,6 @@ body {
   display: inline-block;
 }
 
-/* Success & Error */
 .toast-success {
   color: color.adjust($success, $lightness: 8%);
   border-color: rgba($success, 0.3);
@@ -379,10 +404,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .auth-container {
-    padding: $space-4;
-  }
-
   .form-card {
     padding: $space-6 $space-5;
   }

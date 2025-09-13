@@ -8,20 +8,23 @@ export class ChatService {
   private readonly apiUrl = `${environment.apiUrl}/chat`;
   private auth = inject(AuthService);
 
-  stream(message: string): Observable<string> {
+  stream(message: string, opts?: { prompt?: string }): Observable<string> {
     return new Observable<string>((observer) => {
       const at = this.auth.getAccessToken();
       const controller = new AbortController();
 
       (async () => {
         try {
+          const body: any = { message };
+          if (opts?.prompt) body.prompt = opts.prompt;
+
           const res = await fetch(this.apiUrl, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               ...(at ? { Authorization: `Bearer ${at}` } : {})
             },
-            body: JSON.stringify({ message }),
+            body: JSON.stringify(body),
             signal: controller.signal
           });
 

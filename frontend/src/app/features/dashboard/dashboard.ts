@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject, signal, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, signal, AfterViewInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -23,14 +23,20 @@ export class DashboardComponent implements AfterViewInit {
 
   @ViewChild('scroller') scroller?: ElementRef<HTMLDivElement>;
   @ViewChild('messageInput') messageInput?: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('extraInput') extraInput?: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('menuRoot') menuRoot?: ElementRef<HTMLElement>;
 
   messages = signal<ChatMessage[]>([]);
   streaming = signal(false);
   error = signal<string | null>(null);
   private streamSub?: Subscription;
 
+  menuOpen = signal(false);
+  showExtraPrompt = signal(false);
+
   chatForm: FormGroup = this.fb.group({
-    message: ['', [Validators.required, Validators.minLength(1)]]
+    message: ['', [Validators.required, Validators.minLength(1)]],
+    extraPrompt: ['']
   });
 
   logout() {
@@ -48,19 +54,36 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Başlangıçta hizalı ve tek satır yüksekliğinde olsun
     setTimeout(() => this.autoResize());
+  }
+
+  toggleMenu() { this.menuOpen.update(v => !v); }
+  closeMenu() { this.menuOpen.set(false); }
+
+  onSelectExtraPrompt() {
+    this.showExtraPrompt.set(true);
+    this.menuOpen.set(false);
+    setTimeout(() => {
+      const el = this.extraInput?.nativeElement;
+      if (el) { this.autoResize({ target: el } as any); el.focus(); }
+    });
+  }
+
+  closeExtraPrompt() {
+    this.showExtraPrompt.set(false);
+    setTimeout(() => this.messageInput?.nativeElement?.focus());
   }
 
   onSubmit() {
     if (this.chatForm.invalid || this.streaming()) return;
     const message = (this.chatForm.get('message')?.value || '').trim();
+    const prompt = (this.chatForm.get('extraPrompt')?.value || '').trim();
     if (!message) return;
 
     this.error.set(null);
 
     this.messages.update(list => [...list, { role: 'user', content: message, createdAt: new Date() }]);
-    this.chatForm.reset();
+    this.chatForm.get('message')?.reset('');
     this.resetTextareaHeight();
     setTimeout(() => this.messageInput?.nativeElement.focus());
     this.scrollToBottomSoon();
@@ -70,7 +93,7 @@ export class DashboardComponent implements AfterViewInit {
 
     this.streaming.set(true);
 
-    this.streamSub = this.chat.stream(message).subscribe({
+    this.streamSub = this.chat.stream(message, { prompt: prompt || undefined }).subscribe({
       next: (chunk) => {
         const arr = [...this.messages()];
         arr[assistantIndex] = { ...arr[assistantIndex], content: (arr[assistantIndex].content || '') + chunk };
@@ -85,6 +108,18 @@ export class DashboardComponent implements AfterViewInit {
     });
   }
 
+  onClearChat() {
+    this.cancel();
+
+    this.messages.set([]);
+    this.error.set(null);
+
+    this.menuOpen.set(false);
+    setTimeout(() => this.messageInput?.nativeElement?.focus());
+
+    this.scrollToBottomSoon();
+  }
+
   autoResize(evt?: Event) {
     const el = (evt?.target as HTMLTextAreaElement) || this.messageInput?.nativeElement;
     if (!el) return;
@@ -97,7 +132,7 @@ export class DashboardComponent implements AfterViewInit {
 
     const cssMinH = parseFloat(cs.minHeight) || 0;
     const minH = Math.max(cssMinH, Math.round(line + padY + brdY));
-    const maxH = Math.round(line * 3 + padY + brdY);
+    const maxH = Math.round(line * 2 + padY + brdY);
 
     const target = Math.min(Math.max(el.scrollHeight, minH), maxH);
     el.style.height = `${target}px`;
@@ -124,5 +159,15 @@ export class DashboardComponent implements AfterViewInit {
       const el = this.scroller?.nativeElement;
       if (el) el.scrollTop = el.scrollHeight;
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(ev: MouseEvent) {
+    const menuEl = this.menuRoot?.nativeElement;
+    if (!menuEl) return;
+    const target = ev.target as Node;
+    if (this.menuOpen() && !menuEl.contains(target)) {
+      this.closeMenu();
+    }
   }
 }

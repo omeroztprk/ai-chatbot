@@ -5,7 +5,7 @@
         <div class="app-logo logo-sm"><img src="logo.png" alt="Description of image"></div>
         <h1 class="form-title chat-title">Chatbot</h1>
       </div>
-      <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="logout()">Logout</button>
     </div>
 
     <div #scroller class="chat-messages">
@@ -15,11 +15,37 @@
       </div>
     </div>
 
-    <form class="chat-input" [formGroup]="chatForm" (ngSubmit)="onSubmit()" novalidate>
-      <textarea #messageInput class="form-input textarea" placeholder="Mesaj yazın…" aria-label="Mesaj" rows="1"
-        formControlName="message" (input)="autoResize($event)" (keydown.enter)="onEnter($event)"></textarea>
+    <form [formGroup]="chatForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="extra-prompt" *ngIf="showExtraPrompt()">
+        <textarea #extraInput class="chat-textarea" placeholder="Optional additional instructions…" rows="1"
+          formControlName="extraPrompt" (input)="autoResize($event)"></textarea>
 
-      <button type="submit" class="btn btn-primary" [disabled]="chatForm.invalid">Gönder</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="closeExtraPrompt()">Close</button>
+      </div>
+
+      <div class="chat-input">
+        <div #menuRoot class="more-menu" [class.open]="menuOpen()">
+          <button type="button" class="icon-button icon-button--lg" [attr.aria-expanded]="menuOpen()"
+            aria-haspopup="menu" aria-label="More options" (click)="toggleMenu()" (keydown.escape)="closeMenu()">
+            ⋮
+            <span class="sr-only">Toggle menu</span>
+          </button>
+
+          <div class="menu-panel" *ngIf="menuOpen()" role="menu" aria-label="More options">
+            <button type="button" class="menu-item" role="menuitem" (click)="onSelectExtraPrompt()">
+              Add Prompt
+            </button>
+            <button type="button" class="menu-item" role="menuitem" (click)="onClearChat()">
+              Clear Chat
+            </button>
+          </div>
+        </div>
+
+        <textarea #messageInput class="chat-textarea" placeholder="Message..." aria-label="Message" rows="1"
+          formControlName="message" (input)="autoResize($event)" (keydown.enter)="onEnter($event)"></textarea>
+
+        <button type="submit" class="btn btn-primary btn-sm" [disabled]="chatForm.invalid">Send</button>
+      </div>
     </form>
   </div>
 </div>
