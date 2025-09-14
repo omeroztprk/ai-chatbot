@@ -13,6 +13,23 @@ A full-stack chatbot application built with Angular frontend and Node.js/Express
 - **Additional Prompts**: Optional extra instructions for enhanced chat context
 - **Chat History**: Persistent conversation display with user/assistant message bubbles
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="frontend/public/chatbot1.png">
+        <img src="frontend/public/chatbot1.png" alt="Chatbot" width="260">
+      </a><br/><sub>Chatbot</sub>
+    </td>
+    <td align="center">
+      <a href="frontend/public/chatbot2.png">
+        <img src="frontend/public/chatbot2.png" alt="Chatbot in action" width="260">
+      </a><br/><sub>Chatbot in action</sub>
+    </td>
+  </tr>
+</table>
+
 ## Installation
 
 1. **Clone the repository**
