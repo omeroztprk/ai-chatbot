@@ -1,4 +1,6 @@
-# Chatbot Application
+# AI Chatbot
+
+## Description
 
 A full-stack chatbot application built with Angular frontend and Node.js/Express backend. Features user authentication, real-time chat streaming, and a modern responsive design with both main dashboard and floating chatbot widget interfaces.
 
