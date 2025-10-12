@@ -2,18 +2,27 @@
 
 ## Description
 
-A full-stack chatbot application built with Angular frontend and Node.js/Express backend. Features user authentication, real-time chat streaming, and a modern responsive design with both main dashboard and floating chatbot widget interfaces.
+AI Chatbot is a full-stack conversational platform built with **Node.js**, **Express**, and **MongoDB** on the backend, and **Angular** on the frontend.
+
+The platform integrates a **chatbot interface** that communicates with an external **n8n-based OpenAI API service**, enabling **real-time streaming responses** for dynamic and interactive conversations.  
+This allows users to engage with **AI-powered assistants** that deliver instant, context-aware answers tailored to their queries.
+
+In addition, the application provides a **secure authentication system** where users can register, log in, and manage their sessions through **JWT-based access tokens** and **session tracking**.
+
+With its **modern and responsive user interface**, **AI Chatbot** delivers a seamless chat experience through both a **full-page dashboard** and a **floating chatbot widget**, unifying user interaction and intelligent assistance within a single professional platform.
 
 ## Features
 
-- **User Authentication**: Secure registration and login system with JWT tokens
-- **Real-time Chat Streaming**: Server-sent events for live chatbot responses
-- **Dual Interface**: Main dashboard chat and floating chatbot widget
-- **Responsive Design**: Modern glass-morphism UI that works on all devices
-- **Session Management**: Secure token-based authentication with session tracking
-- **Auto-resizing Input**: Smart textarea that adapts to content length
-- **Additional Prompts**: Optional extra instructions for enhanced chat context
-- **Chat History**: Persistent conversation display with user/assistant message bubbles
+- **Authentication**: Secure registration and login with JWT access tokens and session management  
+- **Session Tracking**: Token-based session validation with automatic expiration and revocation support  
+- **User Management**: Full user profile support with first name, last name, and email  
+- **Chat Interface**: Real-time streaming chat responses via webhook integration  
+- **Dashboard View**: Full-page chat interface with message history and extra prompt options  
+- **Floating Chatbot Widget**: Persistent chatbot assistant accessible from any page  
+- **Message Streaming**: Server-Sent Events (SSE) for real-time AI response streaming  
+- **Validation**: Comprehensive input validation for registration and login forms  
+- **UI/UX**: Clean, card-based design with glassmorphism effects and smooth animations  
+- **Responsive Design**: Fully optimized for desktop, tablet, and mobile devices
 
 ## Screenshots
 
